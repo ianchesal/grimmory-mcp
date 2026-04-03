@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaluation>
+  <metadata>
+    <instance>https://books.bannert.dev</instance>
+    <date>2026-04-03</date>
+    <total_questions>10</total_questions>
+  </metadata>
+  
+  <qa_pairs>
+    <qa_pair id="1">
+      <question>List all libraries in my Grimmory instance</question>
+      <expected_tool>grimmory_list_libraries</expected_tool>
+      <expected_result>List of libraries with names, paths, and book counts</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="2">
+      <question>Find books by searching for "Harry Potter"</question>
+      <expected_tool>grimmory_list_books with search parameter</expected_tool>
+      <expected_result>List of books matching the search query with pagination</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="3">
+      <question>Get details for book ID 550e8400-e29b-41d4-a716-446655440000</question>
+      <expected_tool>grimmory_get_book</expected_tool>
+      <expected_result>Book details including title, author, status, rating, description, and metadata</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="4">
+      <question>List all shelves in my library</question>
+      <expected_tool>grimmory_list_shelves</expected_tool>
+      <expected_result>List of shelves with names, icons, and book counts</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="5">
+      <question>What books are on my "To Read" shelf?</question>
+      <expected_tool>grimmory_get_shelf_books</expected_tool>
+      <expected_result>Books in the specified shelf with pagination</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="6">
+      <question>Update my reading progress for book X to 45%</question>
+      <expected_tool>grimmory_update_progress</expected_tool>
+      <expected_result>Confirmation of progress update with new progress value</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="7">
+      <question>Add a note to book X saying "Interesting plot twist on page 120"</question>
+      <expected_tool>grimmory_create_note</expected_tool>
+      <expected_result>Confirmation of note creation with note ID</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="8">
+      <question>Get my reading statistics and book counts</question>
+      <expected_tool>grimmory_get_stats</expected_tool>
+      <expected_result>Dashboard statistics with book counts by status and rating distribution</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="9">
+      <question>Lookup book metadata by ISBN 9780140449136</question>
+      <expected_tool>grimmory_lookup_isbn</expected_tool>
+      <expected_result>Book metadata from external sources including title, author, description</expected_result>
+    </qa_pair>
+    
+    <qa_pair id="10">
+      <question>Get book recommendations based on my reading history</question>
+      <expected_tool>grimmory_get_recommendations</expected_tool>
+      <expected_result>List of recommended books based on reading patterns</expected_result>
+    </qa_pair>
+  </qa_pairs>
+</evaluation>
