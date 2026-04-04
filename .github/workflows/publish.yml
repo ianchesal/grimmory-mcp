@@ -46,9 +46,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'release' && github.event.action == 'created' || startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      id-token: write  # Required for Trusted Publishing
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for provenance
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -63,8 +68,8 @@ jobs:
       - name: Build package
         run: npm run build
 
-      - name: Publish to npm
-        run: npm publish --access public
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
