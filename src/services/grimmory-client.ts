@@ -336,7 +336,131 @@ export class GrimmoryClient {
   }
 
   /** Perform an authenticated DELETE request. */
-  async delete<T>(path: string): Promise<ApiResponse<T>> {
-    return this.request<T>('DELETE', path);
+  async delete<T>(path: string, body?: unknown): Promise<ApiResponse<T>> {
+    return this.request<T>('DELETE', path, body);
+}
+
+  // -----------------------------------------------------------------------
+  // SSE-as-blocking helpers
+  // -----------------------------------------------------------------------
+
+  /**
+   * Perform an authenticated GET request against an SSE endpoint.
+   * Reads the full stream, collects all `data:` lines, and returns the
+   * aggregated array.  Aborts after `timeoutMs` (default 60 000 ms).
+   */
+  async sseGet<T>(path: string, params?: Record<string, unknown>, timeoutMs: number = 60_000): Promise<ApiResponse<T[]>> {
+    return this.sseRequest<T>('GET', path, undefined, params, timeoutMs);
+  }
+
+  /**
+   * Perform an authenticated POST request against an SSE endpoint.
+   * Reads the full stream, collects all `data:` lines, and returns the
+   * aggregated array.  Aborts after `timeoutMs` (default 60 000 ms).
+   */
+  async ssePost<T>(path: string, body: unknown, timeoutMs: number = 60_000): Promise<ApiResponse<T[]>> {
+    return this.sseRequest<T>('POST', path, body, undefined, timeoutMs);
+  }
+
+  /**
+   * Core SSE streaming implementation with auth, 401-retry, and timeout.
+   */
+  private async sseRequest<T>(
+    method: string,
+    path: string,
+    body?: unknown,
+    params?: Record<string, unknown>,
+    timeoutMs: number = 60_000,
+  ): Promise<ApiResponse<T[]>> {
+    try {
+      await this.ensureAuthenticated();
+
+      const url = this.buildUrl(path, params);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+      try {
+        let response = await this.executeSseFetch(url, method, body, controller.signal);
+
+        // 401 → refresh + retry once
+        if (response.status === 401) {
+          logInfo('SSE received 401, attempting token refresh and retry');
+          if (this.refreshMutex) {
+            await this.refreshMutex;
+          } else {
+            this.refreshMutex = this.refreshTokens();
+            try { await this.refreshMutex; } finally { this.refreshMutex = null; }
+          }
+          response = await this.executeSseFetch(url, method, body, controller.signal);
+        }
+
+        if (!response.ok) {
+          const errorBody = await response.text().catch(() => '');
+          const message = errorBody || response.statusText;
+          logError(`SSE ${method} ${path} failed (${response.status}): ${message}`);
+          return { success: false, error: `API error ${response.status}: ${message}`, isError: true };
+        }
+
+        const results = await this.readSseStream<T>(response);
+        return { success: true, data: results };
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      logError(`SSE request failed: ${message}`);
+      return { success: false, error: message, isError: true };
+    }
+  }
+
+  /** Execute the raw fetch for an SSE request. */
+  private async executeSseFetch(url: string, method: string, body: unknown | undefined, signal: AbortSignal): Promise<Response> {
+    const headers: Record<string, string> = {
+      'Accept': 'text/event-stream',
+      ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+      ...(this.accessToken ? { Authorization: `Bearer ${this.accessToken}` } : {}),
+    };
+
+    return fetch(url, {
+      method,
+      headers,
+      ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
+      signal,
+    });
+  }
+
+  /** Read all `data:` lines from an SSE response body. */
+  private async readSseStream<T>(response: Response): Promise<T[]> {
+    const reader = response.body?.getReader();
+    if (!reader) return [];
+
+    const decoder = new TextDecoder();
+    let buffer = '';
+    const results: T[] = [];
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('data:')) {
+          const payload = trimmed.slice(5).trim();
+          if (payload) {
+            try {
+              results.push(JSON.parse(payload) as T);
+            } catch {
+              // Skip malformed SSE data lines
+            }
+          }
+        }
+      }
+    }
+
+    return results;
   }
 }
