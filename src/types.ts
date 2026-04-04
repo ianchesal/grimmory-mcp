@@ -50,6 +50,24 @@ export type IconType = "PRIME_NG" | "CUSTOM_SVG";
 /** Additional file types attached to a book. */
 export type AdditionalFileType = "ALTERNATIVE_FORMAT" | "SUPPLEMENTARY";
 
+/** Metadata field lock flags. Mirrors org.booklore.model.enums.MetadataLockField */
+export type MetadataLockField =
+  | "TITLE"
+  | "SORT_TITLE"
+  | "AUTHORS"
+  | "DESCRIPTION"
+  | "PUBLISHER"
+  | "PUBLISHED_DATE"
+  | "ISBN_10"
+  | "ISBN_13"
+  | "LANGUAGE"
+  | "PAGE_COUNT"
+  | "CATEGORIES"
+  | "TAGS"
+  | "MOODS"
+  | "SERIES"
+  | "SERIES_INDEX"
+  | "COVER";
 // ---------------------------------------------------------------------------
 // Pagination — Spring Data Pageable response wrapper
 // ---------------------------------------------------------------------------
@@ -355,6 +373,10 @@ export interface AuthorDetails {
 /** Union type for author responses (summary in lists, details on get). */
 export type Author = AuthorSummary | AuthorDetails;
 
+/** Generic record for author provider search results. */
+export interface AuthorSearchResult {
+  [key: string]: unknown;
+}
 // ---------------------------------------------------------------------------
 // Note
 // ---------------------------------------------------------------------------
@@ -484,4 +506,13 @@ export interface ProgressUpdateResponse {
 export interface SortOption {
   field?: string;
   direction?: string;
+}
+
+// ---------------------------------------------------------------------------
+// Loose / Generic record types
+// ---------------------------------------------------------------------------
+
+/** Generic record for series list items (API returns Page<Map<String, Object>>). */
+export interface SeriesEntry {
+  [key: string]: unknown;
 }
