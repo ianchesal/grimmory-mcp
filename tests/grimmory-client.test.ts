@@ -264,5 +264,24 @@ describe('GrimmoryClient', () => {
         }),
       );
     });
+    it('should send body when provided to DELETE request', async () => {
+      const ids = ['author-1', 'author-2'];
+      mockFetch
+        .mockResolvedValueOnce(mockResponse(AUTH_RESPONSE))
+        .mockResolvedValueOnce(mockResponse(null, 204));
+
+      const client = new GrimmoryClient();
+      await client.authenticate();
+      const result = await client.delete('/authors', ids);
+
+      expect(result.success).toBe(true);
+      expect(mockFetch).toHaveBeenLastCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          method: 'DELETE',
+          body: JSON.stringify(ids),
+        }),
+      );
+    });
   });
 });
