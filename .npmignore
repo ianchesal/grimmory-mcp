@@ -1,0 +1,44 @@
+# Source files
+src/
+tsconfig.json
+
+# Tests
+tests/
+*.test.ts
+*.spec.ts
+
+# Development
+.github/
+.vscode/
+.idea/
+
+# Build artifacts (only dist/ should be included)
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# CI
+.travis.yml
+.gitlab-ci.yml
+
+# Documentation source
+docs/
