@@ -17,6 +17,7 @@ import { registerNotesTools } from './tools/notes.js';
 import { registerReviewTools } from './tools/reviews.js';
 import { registerMetadataTools } from './tools/metadata.js';
 import { registerStatsTools } from './tools/stats.js';
+import { registerSidecarTools } from './tools/sidecar.js';
 import { logError, logInfo } from './utils.js';
 
 async function main() {
@@ -56,7 +57,7 @@ async function main() {
     version: '0.1.0',
   });
   
-  // Register all 19 tools
+  // Register all 53 tools
   registerBookTools(server, client, formatter);
   registerLibraryTools(server, client, formatter);
   registerShelfTools(server, client, formatter);
@@ -66,8 +67,9 @@ async function main() {
   registerReviewTools(server, client, formatter);
   registerMetadataTools(server, client, formatter);
   registerStatsTools(server, client, formatter);
+  registerSidecarTools(server, client, formatter);
   
-  logInfo('All 19 tools registered');
+  logInfo('All 53 tools registered');
   
   // Start server with stdio transport
   const transport = new StdioServerTransport();
