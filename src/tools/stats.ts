@@ -63,7 +63,7 @@ export function registerStatsTools(
         summary: BooksSummary;
         ratingDistribution: RatingDistribution[];
         statusDistribution: StatusDistribution[];
-      }>('stats/dashboard');
+      }>('user-stats/reading/book-distributions');
 
       if (!result.success) {
         logError(`get_stats failed: ${result.error}`);

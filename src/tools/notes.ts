@@ -63,7 +63,7 @@ export function registerNotesTools(
       if (dir) params.dir = dir;
 
       const result = await client.get<Page<BookNote>>(
-        `books/${bookId}/notes`,
+        `book-notes/book/${bookId}`,
         params,
       );
 
@@ -89,11 +89,11 @@ export function registerNotesTools(
     async (args) => {
       const { bookId, content, page, response_format } = args;
 
-      const body: Record<string, unknown> = { content };
+      const body: Record<string, unknown> = { bookId, content };
       if (page != null) body.page = page;
 
       const result = await client.post<BookNote>(
-        `books/${bookId}/notes`,
+        'book-notes',
         body,
       );
 
@@ -118,7 +118,7 @@ export function registerNotesTools(
       const { bookId, noteId, response_format } = args;
 
       const result = await client.delete<void>(
-        `books/${bookId}/notes/${noteId}`,
+        `book-notes/${noteId}`,
       );
 
       if (!result.success) {
