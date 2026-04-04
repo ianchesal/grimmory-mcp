@@ -11,6 +11,7 @@ import type {
   BookRecommendationLite,
   RatingDistribution,
   StatusDistribution,
+  SeriesEntry,
 } from '../types.js';
 
 // ---------------------------------------------------------------------------
@@ -82,6 +83,14 @@ export class ResponseFormatter {
     format: ResponseFormat,
     options?: { title?: string; isError?: boolean },
   ): FormattedResponse {
+    // Handle undefined/null data
+    if (data == null) {
+      const emptyText = format === 'json' ? 'null' : 'No data available.';
+      const result: FormattedResponse = { content: [{ type: 'text', text: emptyText }] };
+      if (options?.isError) result.isError = true;
+      return result;
+    }
+
     const text =
       format === 'markdown'
         ? this.toMarkdown(data, options?.title)
@@ -299,7 +308,72 @@ export class ResponseFormatter {
     };
   }
 
+  // -- series ----------------------------------------------------------------
 
+  formatSeriesList(page: Page<SeriesEntry>, format: ResponseFormat): FormattedResponse {
+    if (format === 'json') {
+      return this.format(page, 'json');
+    }
+    const items = page.content.map((s) => this.seriesToMarkdown(s));
+    return {
+      content: [
+        {
+          type: 'text',
+          text: truncateText(items.join('\n\n---\n\n') + '\n\n' + formatPagination(page)),
+        },
+      ],
+    };
+  }
+
+  // -- sidecar ---------------------------------------------------------------
+
+  formatSidecarContent(content: Record<string, unknown>, format: ResponseFormat): FormattedResponse {
+    if (format === 'json') {
+      return this.format(content, 'json');
+    }
+    return {
+      content: [
+        {
+          type: 'text',
+          text: truncateText(this.sidecarContentToMarkdown(content)),
+        },
+      ],
+    };
+  }
+
+  formatSidecarStatus(status: Record<string, unknown>, format: ResponseFormat): FormattedResponse {
+    if (format === 'json') {
+      return this.format(status, 'json');
+    }
+    return {
+      content: [
+        {
+          type: 'text',
+          text: truncateText(this.sidecarStatusToMarkdown(status)),
+        },
+      ],
+    };
+  }
+
+  // -- filter options ---------------------------------------------------------
+
+  formatFilterOptions(options: Record<string, unknown>, format: ResponseFormat): FormattedResponse {
+    if (format === 'json') {
+      return this.format(options, 'json');
+    }
+    return {
+      content: [
+        {
+          type: 'text',
+          text: truncateText(this.filterOptionsToMarkdown(options)),
+        },
+      ],
+    };
+  }
+
+
+  // =========================================================================
+  // Private markdown generators
   // =========================================================================
   // Private markdown generators
   // =========================================================================
@@ -495,4 +569,45 @@ export class ResponseFormatter {
 
     return lines.join('\n');
   }
+
+  private seriesToMarkdown(entry: SeriesEntry): string {
+    const lines: string[] = [];
+    const name = String(entry.seriesName ?? entry.name ?? 'Unknown Series');
+    lines.push(`# ${name}`, '');
+    for (const [key, value] of Object.entries(entry)) {
+      if (key === 'seriesName' || key === 'name') continue;
+      lines.push(`- **${key}:** ${value}`);
+    }
+    return lines.join('\n');
+  }
+
+  private sidecarContentToMarkdown(content: Record<string, unknown>): string {
+    const lines: string[] = ['# Sidecar Content', ''];
+    for (const [key, value] of Object.entries(content)) {
+      const display = typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value);
+      lines.push(`**${key}:** ${display}`);
+    }
+    return lines.join('\n');
+  }
+
+  private sidecarStatusToMarkdown(status: Record<string, unknown>): string {
+    const lines: string[] = ['# Sidecar Sync Status', ''];
+    for (const [key, value] of Object.entries(status)) {
+      lines.push(`- **${key}:** ${value}`);
+    }
+    return lines.join('\n');
+  }
+
+  private filterOptionsToMarkdown(options: Record<string, unknown>): string {
+    const lines: string[] = ['# Filter Options', ''];
+    for (const [key, value] of Object.entries(options)) {
+      if (Array.isArray(value)) {
+        lines.push(`**${key}:** ${value.join(', ')}`);
+      } else {
+        lines.push(`- **${key}:** ${value}`);
+      }
+    }
+    return lines.join('\n');
+  }
+
 }
