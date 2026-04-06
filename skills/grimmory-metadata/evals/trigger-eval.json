@@ -1,0 +1,22 @@
+[
+  {"query": "Look up ISBN 978-0-123456-78-9 for metadata", "should_trigger": true},
+  {"query": "Update book 111's title and publisher", "should_trigger": true},
+  {"query": "Lock the title and author fields so they don't get overwritten", "should_trigger": true},
+  {"query": "Get the sidecar metadata file for book 222", "should_trigger": true},
+  {"query": "Export sidecars for all books in library 333", "should_trigger": true},
+  {"query": "Preview what metadata matches would look like for book 444", "should_trigger": true},
+  {"query": "Consolidate metadata for all books to merge duplicates", "should_trigger": true},
+  {"query": "Delete the subtitle and series fields from books 555, 556, 557", "should_trigger": true},
+  {"query": "Look up these ISBNs in batch: 9781234567890, 9780987654321", "should_trigger": true},
+  {"query": "Which fields can I lock?", "should_trigger": true},
+  {"query": "Show me all libraries", "should_trigger": false},
+  {"query": "List shelves", "should_trigger": false},
+  {"query": "Update my reading progress", "should_trigger": false},
+  {"query": "Rate this book", "should_trigger": false},
+  {"query": "Add a note", "should_trigger": false},
+  {"query": "Find author metadata", "should_trigger": false},
+  {"query": "Match author with provider", "should_trigger": false},
+  {"query": "Show statistics", "should_trigger": false},
+  {"query": "Recommend a book", "should_trigger": false},
+  {"query": "Refresh reviews", "should_trigger": false}
+]

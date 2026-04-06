@@ -1,0 +1,92 @@
+{
+  "skill_name": "grimmory-library",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Show me all my Grimmory libraries",
+      "expected_output": "Call grimmory_list_libraries tool and return list of libraries with names and IDs",
+      "files": [],
+      "assertions": [
+        {
+          "name": "calls_list_libraries",
+          "description": "Should call grimmory_list_libraries tool",
+          "type": "tool_call",
+          "tool_name": "grimmory_list_libraries"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "List all shelves in my main library",
+      "expected_output": "Ask for library ID or search for 'main' library, then call grimmory_list_shelves with libraryId",
+      "files": [],
+      "assertions": [
+        {
+          "name": "identifies_library_first",
+          "description": "Should either ask for clarification or search for library",
+          "type": "behavior"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "What books are in my 'Favorites' shelf?",
+      "expected_output": "Find shelf ID for 'Favorites', then call grimmory_get_shelf_books",
+      "files": [],
+      "assertions": [
+        {
+          "name": "finds_shelf_then_books",
+          "description": "Should find shelf ID before getting books",
+          "type": "sequence"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Search for books by Isaac Asimov in my library",
+      "expected_output": "Call grimmory_list_books with search parameter 'Isaac Asimov'",
+      "files": [],
+      "assertions": [
+        {
+          "name": "uses_search_parameter",
+          "description": "Should use search parameter in list_books call",
+          "type": "parameter_check",
+          "tool_name": "grimmory_list_books",
+          "parameter": "search",
+          "contains": "Asimov"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Get details for book 12345",
+      "expected_output": "Call grimmory_get_book with bookId 12345",
+      "files": [],
+      "assertions": [
+        {
+          "name": "calls_get_book",
+          "description": "Should call grimmory_get_book with correct ID",
+          "type": "tool_call",
+          "tool_name": "grimmory_get_book",
+          "expected_params": {"bookId": "12345"}
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Show me the first 10 books in my Science Fiction library, sorted by title ascending",
+      "expected_output": "Find Science Fiction library ID, then call list_books with pagination (size: 10), sort: 'title', dir: 'asc'",
+      "files": [],
+      "assertions": [
+        {
+          "name": "uses_pagination_and_sorting",
+          "description": "Should include pagination and sorting parameters",
+          "type": "parameter_check",
+          "tool_name": "grimmory_list_books",
+          "parameter": "size",
+          "equals": 10
+        }
+      ]
+    }
+  ]
+}

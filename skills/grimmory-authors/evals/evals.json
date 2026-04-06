@@ -1,0 +1,118 @@
+{
+  "skill_name": "grimmory-authors",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "List all authors in my library",
+      "expected_output": "Call grimmory_list_authors with pagination",
+      "files": [],
+      "assertions": [
+        {
+          "name": "calls_list_authors",
+          "description": "Should call grimmory_list_authors",
+          "type": "tool_call",
+          "tool_name": "grimmory_list_authors"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Find authors matching 'Asimov'",
+      "expected_output": "Call grimmory_find_author_by_name with name: 'Asimov'",
+      "files": [],
+      "assertions": [
+        {
+          "name": "searches_by_name",
+          "description": "Should use find_author_by_name",
+          "type": "tool_call",
+          "tool_name": "grimmory_find_author_by_name"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Show me details for author 987",
+      "expected_output": "Call grimmory_get_author with authorId 987",
+      "files": [],
+      "assertions": [
+        {
+          "name": "gets_author_details",
+          "description": "Should retrieve author details",
+          "type": "tool_call",
+          "tool_name": "grimmory_get_author"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Update author 654's description with a biography about their life and works",
+      "expected_output": "Call grimmory_update_author with authorId 654 and description parameter",
+      "files": [],
+      "assertions": [
+        {
+          "name": "updates_description",
+          "description": "Should update author description",
+          "type": "parameter_check",
+          "tool_name": "grimmory_update_author",
+          "parameter": "description"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Search for metadata for author 321",
+      "expected_output": "Call grimmory_search_author_metadata with authorId 321",
+      "files": [],
+      "assertions": [
+        {
+          "name": "searches_metadata",
+          "description": "Should search for author metadata",
+          "type": "tool_call",
+          "tool_name": "grimmory_search_author_metadata"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Auto-match all unmatched authors in my library",
+      "expected_output": "Call grimmory_auto_match_authors",
+      "files": [],
+      "assertions": [
+        {
+          "name": "auto_matches_authors",
+          "description": "Should trigger auto-match for all authors",
+          "type": "tool_call",
+          "tool_name": "grimmory_auto_match_authors"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Find photos for author 147",
+      "expected_output": "Call grimmory_search_author_photos with authorId 147",
+      "files": [],
+      "assertions": [
+        {
+          "name": "searches_photos",
+          "description": "Should search for author photos",
+          "type": "tool_call",
+          "tool_name": "grimmory_search_author_photos"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Unmatch author 258 - it's linked to the wrong person",
+      "expected_output": "Call grimmory_unmatch_authors with authorIds [258]",
+      "files": [],
+      "assertions": [
+        {
+          "name": "unmatches_author",
+          "description": "Should remove metadata associations",
+          "type": "tool_call",
+          "tool_name": "grimmory_unmatch_authors"
+        }
+      ]
+    }
+  ]
+}

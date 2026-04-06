@@ -1,0 +1,94 @@
+{
+  "skill_name": "grimmory-reading",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Mark 'Dune' as currently reading",
+      "expected_output": "Find book 'Dune', then call grimmory_update_read_status with status: 'READING'",
+      "files": [],
+      "assertions": [
+        {
+          "name": "updates_reading_status",
+          "description": "Should update status to READING",
+          "type": "tool_call",
+          "tool_name": "grimmory_update_read_status",
+          "expected_params": {"status": "READING"}
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Update my progress on book 123 to 45%",
+      "expected_output": "Call grimmory_update_progress with bookId 123 and progress 45",
+      "files": [],
+      "assertions": [
+        {
+          "name": "updates_progress",
+          "description": "Should call update_progress with correct percentage",
+          "type": "tool_call",
+          "tool_name": "grimmory_update_progress",
+          "expected_params": {"bookId": "123", "progress": 45}
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I've finished 'The Hobbit', mark it as read and give it 5 stars",
+      "expected_output": "Find book 'The Hobbit', then call update_read_status with READ, then update_rating with 5",
+      "files": [],
+      "assertions": [
+        {
+          "name": "marks_read_and_rated",
+          "description": "Should mark as READ and set 5-star rating",
+          "type": "sequence",
+          "tools": ["grimmory_update_read_status", "grimmory_update_rating"]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add a note to book 456: 'The protagonist makes an interesting choice here that foreshadows the ending'",
+      "expected_output": "Call grimmory_create_note with bookId 456 and the note content",
+      "files": [],
+      "assertions": [
+        {
+          "name": "creates_note",
+          "description": "Should create note with provided content",
+          "type": "tool_call",
+          "tool_name": "grimmory_create_note",
+          "expected_params": {"bookId": "456"}
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Show me all notes for book 789",
+      "expected_output": "Call grimmory_list_notes with bookId 789",
+      "files": [],
+      "assertions": [
+        {
+          "name": "lists_notes",
+          "description": "Should list notes for the book",
+          "type": "tool_call",
+          "tool_name": "grimmory_list_notes"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Create a note on page 150 of book 321: 'Important quote about freedom'",
+      "expected_output": "Call grimmory_create_note with bookId 321, content, and page: 150",
+      "files": [],
+      "assertions": [
+        {
+          "name": "includes_page_number",
+          "description": "Should include page parameter when specified",
+          "type": "parameter_check",
+          "tool_name": "grimmory_create_note",
+          "parameter": "page",
+          "equals": 150
+        }
+      ]
+    }
+  ]
+}

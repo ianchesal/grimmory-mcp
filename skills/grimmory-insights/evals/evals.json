@@ -1,0 +1,120 @@
+{
+  "skill_name": "grimmory-insights",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Show me my library statistics",
+      "expected_output": "Call grimmory_get_stats and display statistics",
+      "files": [],
+      "assertions": [
+        {
+          "name": "gets_stats",
+          "description": "Should retrieve library statistics",
+          "type": "tool_call",
+          "tool_name": "grimmory_get_stats"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "How many books have I read this year?",
+      "expected_output": "Call grimmory_get_stats, then filter/analyze read books by date",
+      "files": [],
+      "assertions": [
+        {
+          "name": "analyzes_reading_stats",
+          "description": "Should get stats and interpret read count",
+          "type": "tool_call",
+          "tool_name": "grimmory_get_stats"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Recommend me a book based on my reading history",
+      "expected_output": "Call grimmory_get_recommendations",
+      "files": [],
+      "assertions": [
+        {
+          "name": "gets_recommendations",
+          "description": "Should retrieve personalized recommendations",
+          "type": "tool_call",
+          "tool_name": "grimmory_get_recommendations"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What should I read next? Show me the top 5 recommendations",
+      "expected_output": "Call grimmory_get_recommendations with size: 5",
+      "files": [],
+      "assertions": [
+        {
+          "name": "limits_recommendations",
+          "description": "Should limit to 5 recommendations",
+          "type": "parameter_check",
+          "tool_name": "grimmory_get_recommendations",
+          "parameter": "size",
+          "equals": 5
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Show me reviews for book 777",
+      "expected_output": "Call grimmory_list_reviews with bookId 777",
+      "files": [],
+      "assertions": [
+        {
+          "name": "lists_reviews",
+          "description": "Should list reviews for the book",
+          "type": "tool_call",
+          "tool_name": "grimmory_list_reviews"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Refresh the reviews for 'Dune' from external sources",
+      "expected_output": "Find book 'Dune', then call grimmory_refresh_reviews",
+      "files": [],
+      "assertions": [
+        {
+          "name": "refreshes_reviews",
+          "description": "Should refresh reviews from external sources",
+          "type": "tool_call",
+          "tool_name": "grimmory_refresh_reviews"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Show me my reading notebook with all my notes",
+      "expected_output": "Call grimmory_get_notebook to show books with notes",
+      "files": [],
+      "assertions": [
+        {
+          "name": "gets_notebook",
+          "description": "Should retrieve notebook entries",
+          "type": "tool_call",
+          "tool_name": "grimmory_get_notebook"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Which books in my main library have I taken notes on?",
+      "expected_output": "Find main library ID, then call grimmory_get_notebook with libraryId filter",
+      "files": [],
+      "assertions": [
+        {
+          "name": "filters_by_library",
+          "description": "Should filter notebook by library",
+          "type": "parameter_check",
+          "tool_name": "grimmory_get_notebook",
+          "parameter": "libraryId"
+        }
+      ]
+    }
+  ]
+}

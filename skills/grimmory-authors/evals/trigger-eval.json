@@ -1,0 +1,22 @@
+[
+  {"query": "List all authors in my library", "should_trigger": true},
+  {"query": "Find authors matching 'Asimov'", "should_trigger": true},
+  {"query": "Show me details for author 987", "should_trigger": true},
+  {"query": "Update author 654's bio with their life story", "should_trigger": true},
+  {"query": "Search for metadata for author 321", "should_trigger": true},
+  {"query": "Auto-match all unmatched authors in my library", "should_trigger": true},
+  {"query": "Find photos for author 147", "should_trigger": true},
+  {"query": "Unmatch author 258, it's the wrong person", "should_trigger": true},
+  {"query": "Who wrote book 123?", "should_trigger": true},
+  {"query": "Match this author to their Goodreads profile", "should_trigger": true},
+  {"query": "Show me my libraries", "should_trigger": false},
+  {"query": "List books in a shelf", "should_trigger": false},
+  {"query": "Update my reading progress", "should_trigger": false},
+  {"query": "Rate this book 5 stars", "should_trigger": false},
+  {"query": "Add a note to this book", "should_trigger": false},
+  {"query": "Look up ISBN metadata", "should_trigger": false},
+  {"query": "Lock title field", "should_trigger": false},
+  {"query": "Export sidecars", "should_trigger": false},
+  {"query": "Show statistics", "should_trigger": false},
+  {"query": "Recommend a book", "should_trigger": false}
+]

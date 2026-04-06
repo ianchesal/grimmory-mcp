@@ -1,0 +1,22 @@
+[
+  {"query": "Show me all my Grimmory libraries and what books are in them", "should_trigger": true},
+  {"query": "List the shelves in my main book library", "should_trigger": true},
+  {"query": "What books do I have in my Favorites shelf?", "should_trigger": true},
+  {"query": "Search for books by Asimov in my collection", "should_trigger": true},
+  {"query": "Get details for book 12345", "should_trigger": true},
+  {"query": "Show me the first 10 books sorted by title", "should_trigger": true},
+  {"query": "Navigate to my Science Fiction library", "should_trigger": true},
+  {"query": "Browse my book collection", "should_trigger": true},
+  {"query": "How many shelves do I have?", "should_trigger": true},
+  {"query": "grimmory list libraries", "should_trigger": true},
+  {"query": "Update my reading progress to 50%", "should_trigger": false},
+  {"query": "Rate this book 5 stars", "should_trigger": false},
+  {"query": "Add a note about the main character", "should_trigger": false},
+  {"query": "Find author metadata for Asimov", "should_trigger": false},
+  {"query": "Match this author with Goodreads", "should_trigger": false},
+  {"query": "Look up ISBN 9781234567890", "should_trigger": false},
+  {"query": "Lock the title field", "should_trigger": false},
+  {"query": "Export sidecar files", "should_trigger": false},
+  {"query": "Show me my reading statistics", "should_trigger": false},
+  {"query": "Recommend a book for me", "should_trigger": false}
+]

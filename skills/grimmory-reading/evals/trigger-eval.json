@@ -1,0 +1,22 @@
+[
+  {"query": "Mark 'Dune' as currently reading", "should_trigger": true},
+  {"query": "Update my progress on book 123 to 45%", "should_trigger": true},
+  {"query": "I've finished The Hobbit, mark it as read and give it 5 stars", "should_trigger": true},
+  {"query": "Add a note to book 456 about the plot twist", "should_trigger": true},
+  {"query": "Show me all notes for book 789", "should_trigger": true},
+  {"query": "Create a note on page 150: Important quote about freedom", "should_trigger": true},
+  {"query": "Update my reading status to PAUSED for this book", "should_trigger": true},
+  {"query": "Rate this book 4 out of 5 stars", "should_trigger": true},
+  {"query": "Delete note 5 from my book", "should_trigger": true},
+  {"query": "I'm on chapter 5, update my reading progress", "should_trigger": true},
+  {"query": "Show me all my libraries", "should_trigger": false},
+  {"query": "List shelves in my collection", "should_trigger": false},
+  {"query": "Search for books by Asimov", "should_trigger": false},
+  {"query": "Find author metadata", "should_trigger": false},
+  {"query": "Match author with provider", "should_trigger": false},
+  {"query": "Look up ISBN", "should_trigger": false},
+  {"query": "Lock metadata fields", "should_trigger": false},
+  {"query": "Export sidecars", "should_trigger": false},
+  {"query": "Show statistics", "should_trigger": false},
+  {"query": "Recommend a book", "should_trigger": false}
+]

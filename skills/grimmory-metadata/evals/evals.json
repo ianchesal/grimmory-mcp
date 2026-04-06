@@ -1,0 +1,133 @@
+{
+  "skill_name": "grimmory-metadata",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Look up ISBN 978-0-123456-78-9 for metadata",
+      "expected_output": "Call grimmory_lookup_isbn with isbn parameter",
+      "files": [],
+      "assertions": [
+        {
+          "name": "looks_up_isbn",
+          "description": "Should call ISBN lookup",
+          "type": "tool_call",
+          "tool_name": "grimmory_lookup_isbn"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Update book 111's title to 'The Corrected Title' and publisher to 'Penguin Books'",
+      "expected_output": "Call grimmory_update_book_metadata with bookId 111 and metadata object containing title and publisher",
+      "files": [],
+      "assertions": [
+        {
+          "name": "updates_metadata_fields",
+          "description": "Should update specific metadata fields",
+          "type": "tool_call",
+          "tool_name": "grimmory_update_book_metadata"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Lock the title and author fields so they don't get overwritten",
+      "expected_output": "Call grimmory_toggle_field_locks with fields ['title', 'author'] and locked: true",
+      "files": [],
+      "assertions": [
+        {
+          "name": "locks_fields",
+          "description": "Should lock specified fields",
+          "type": "parameter_check",
+          "tool_name": "grimmory_toggle_field_locks",
+          "parameter": "locked",
+          "equals": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Get the sidecar metadata file for book 222",
+      "expected_output": "Call grimmory_get_sidecar with bookId 222",
+      "files": [],
+      "assertions": [
+        {
+          "name": "gets_sidecar",
+          "description": "Should retrieve sidecar file",
+          "type": "tool_call",
+          "tool_name": "grimmory_get_sidecar"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Export sidecars for all books in library 333",
+      "expected_output": "Call grimmory_bulk_export_sidecar with libraryId 333",
+      "files": [],
+      "assertions": [
+        {
+          "name": "bulk_exports_sidecars",
+          "description": "Should bulk export sidecars for library",
+          "type": "tool_call",
+          "tool_name": "grimmory_bulk_export_sidecar"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Preview what metadata matches would look like for book 444",
+      "expected_output": "Call grimmory_get_prospective_metadata with bookId 444",
+      "files": [],
+      "assertions": [
+        {
+          "name": "previews_metadata",
+          "description": "Should preview potential matches",
+          "type": "tool_call",
+          "tool_name": "grimmory_get_prospective_metadata"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Consolidate metadata for all books to merge duplicates",
+      "expected_output": "Call grimmory_consolidate_metadata without bookIds (for all books)",
+      "files": [],
+      "assertions": [
+        {
+          "name": "consolidates_all_books",
+          "description": "Should consolidate metadata for all books",
+          "type": "tool_call",
+          "tool_name": "grimmory_consolidate_metadata"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Delete the 'subtitle' and 'series' fields from books 555, 556, and 557",
+      "expected_output": "Call grimmory_delete_metadata_values with bookIds [555, 556, 557] and fields ['subtitle', 'series']",
+      "files": [],
+      "assertions": [
+        {
+          "name": "deletes_metadata_values",
+          "description": "Should delete specified fields from multiple books",
+          "type": "tool_call",
+          "tool_name": "grimmory_delete_metadata_values"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Look up these ISBNs in batch: 9781234567890, 9780987654321, 9781111111111",
+      "expected_output": "Call grimmory_batch_isbn_lookup with isbns array",
+      "files": [],
+      "assertions": [
+        {
+          "name": "batch_lookups",
+          "description": "Should use batch lookup for multiple ISBNs",
+          "type": "tool_call",
+          "tool_name": "grimmory_batch_isbn_lookup"
+        }
+      ]
+    }
+  ]
+}

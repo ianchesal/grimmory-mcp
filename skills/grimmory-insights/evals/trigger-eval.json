@@ -1,0 +1,22 @@
+[
+  {"query": "Show me my library statistics", "should_trigger": true},
+  {"query": "How many books have I read this year?", "should_trigger": true},
+  {"query": "Recommend me a book based on my reading history", "should_trigger": true},
+  {"query": "What should I read next? Show me the top 5 recommendations", "should_trigger": true},
+  {"query": "Show me reviews for book 777", "should_trigger": true},
+  {"query": "Refresh the reviews for Dune from external sources", "should_trigger": true},
+  {"query": "Show me my reading notebook with all my notes", "should_trigger": true},
+  {"query": "Which books have I taken notes on?", "should_trigger": true},
+  {"query": "What's my average rating?", "should_trigger": true},
+  {"query": "Delete review 999", "should_trigger": true},
+  {"query": "Show me all libraries", "should_trigger": false},
+  {"query": "List shelves", "should_trigger": false},
+  {"query": "Update my reading progress", "should_trigger": false},
+  {"query": "Rate this book 5 stars", "should_trigger": false},
+  {"query": "Add a note to this book", "should_trigger": false},
+  {"query": "Find author metadata", "should_trigger": false},
+  {"query": "Match author with provider", "should_trigger": false},
+  {"query": "Look up ISBN", "should_trigger": false},
+  {"query": "Lock metadata fields", "should_trigger": false},
+  {"query": "Export sidecars", "should_trigger": false}
+]
